@@ -2,5 +2,5 @@
 
 echo "Starting server..."
 
-cd /var/app
+cd /home/ec2-user/node-server
 npm run start
