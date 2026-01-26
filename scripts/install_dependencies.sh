@@ -2,5 +2,5 @@
 
 echo "Installing dependices..."
 
-cd /var/app
+cd /home/ec2-user/node-server
 npm install
