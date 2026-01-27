@@ -1,0 +1,50 @@
+# AWS_ACCESS_KEY_ID
+# AWS_SECRET_ACCESS_KEY
+# region:
+
+# REMOTE_HOST
+# EC2_SSH_KEY
+
+# .github/workflows/deploy.yml
+
+name: Deploy to to EC2
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  transfer-toec2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Transfer Files to EC2
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SOURCE: "."
+          REMOTE_HOST: "ec2-15-206-79-1.ap-south-1.compute.amazonaws.com"
+          REMOTE_USER: "ec2-user"
+          TARGET: "/home/ec2-user/app/"
+
+      # - name: Run SSH Command
+      #   id: ssh-command
+      #   uses: leonowski/ec2-ssh-ghactions@v1
+      #   with:
+      #     username: "ec2-user"
+      #     command: "cd /home/ec2-user/app/ && npm install && pm2 restart 'all'"
+      #     ec2_instance_id: "i-06d4218875a4b28fe"
+      #     region: ap-south-1
+
+      # - name: Output
+      #   run: |
+      #     echo -e "${{ steps.ssh-command.outputs.command_output }}"
