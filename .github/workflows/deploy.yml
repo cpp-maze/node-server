@@ -37,8 +37,8 @@ jobs:
           targets: '[{ "Key": "tag:Name", "Values": ["NodejsServer"] }]'
 
           working-directory: /home/ec2-user/app
-          command: ls -al
-          comment: Hello world!
+          command: npm install && pm2 restart 0
+
 
       # Catch SSM outputs
       - name: Get the outputs
