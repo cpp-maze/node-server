@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send('Hello World updated')
+  res.send('Hello World via github codespace')
 });
 
 const PORT = 3000;
