@@ -32,7 +32,7 @@ jobs:
         uses: leonowski/ec2-ssh-ghactions@v1
         with:
           username: "ec2-user"
-          command: "cd /home/ec2-user/app/ && npm install && pm2 restart 'all'"
+          command: "cd /home/ec2-user/app/ && npm install"
           ec2_instance_id: "i-06d4218875a4b28fe"
           region: ap-south-1
 
