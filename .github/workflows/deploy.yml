@@ -27,16 +27,19 @@ jobs:
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/app/"
 
-      - name: Run SSH Command
-        id: ssh-command
-        uses: leonowski/ec2-ssh-ghactions@v1
+      - name: AWS SSM Send-Command
+        uses: rusrushal13/aws-ssm-send-command@master
+        id: ssm
         with:
-          username: "ec2-user"
-          command: "pwd"
-          # command: "cd /home/ec2-user/app/ && npm install && pm2 restart 'all'"
-          ec2_instance_id: "i-06d4218875a4b28fe"
-          region: ap-south-1
+          aws-region: ap-south-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          targets: '[{ "Key": "Name", "Values": ["NodejsServer"] }]'
 
-      - name: Output
-        run: |
-          echo -e "${{ steps.ssh-command.outputs.command_output }}"
+          working-directory: /home/ec2-user/app
+          command: ls -al
+          comment: Hello world!
+
+      # Catch SSM outputs
+      - name: Get the outputs
+        run: echo "The Command id is ${{ steps.ssm.outputs.command-id }}"
