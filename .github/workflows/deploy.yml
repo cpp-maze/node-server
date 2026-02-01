@@ -23,14 +23,14 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           SOURCE: "."
-          REMOTE_HOST: "ec2-15-206-79-1.ap-south-1.compute.amazonaws.com"
+          REMOTE_HOST: "ec2-65-2-34-117.ap-south-1.compute.amazonaws.com"
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/app/"
 
       - name: Execute remote SSH commands using SSH key
         uses: appleboy/ssh-action@v1
         with:
-          host: "ec2-15-206-79-1.ap-south-1.compute.amazonaws.com"
+          host: "ec2-65-2-34-117.ap-south-1.compute.amazonaws.com"
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
