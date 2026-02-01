@@ -37,4 +37,4 @@ jobs:
           script: |
             cd /home/ec2-user/app
             npm install
-            pm2 restart all
+            pm2 restart all || npm run start
