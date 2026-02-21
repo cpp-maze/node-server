@@ -1,4 +1,4 @@
-name: Deploy to to EC2
+name: Deploy SAM app
 on:
   push:
     branches:
@@ -13,6 +13,8 @@ jobs:
 
       - name: Install python3
         uses: actions/setup-python@v3
+        with:
+          python-version: '3.12'
 
       - name: Setup sam cli
         uses: aws-actions/setup-sam@v2
