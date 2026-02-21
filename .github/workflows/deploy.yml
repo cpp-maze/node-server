@@ -9,7 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Install python3
+        uses: actions/setup-python@v3
+
+      - name: Setup sam cli
+        uses: aws-actions/setup-sam@v2
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -18,23 +24,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Transfer Files to EC2
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SOURCE: "."
-          REMOTE_HOST: "ec2-65-2-34-117.ap-south-1.compute.amazonaws.com"
-          REMOTE_USER: "ec2-user"
-          TARGET: "/home/ec2-user/app/"
+      - name: Build
+        run: sam build --use-container
 
-      - name: Execute remote SSH commands using SSH key
-        uses: appleboy/ssh-action@v1
-        with:
-          host: "ec2-65-2-34-117.ap-south-1.compute.amazonaws.com"
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
-            cd /home/ec2-user/app
-            npm install
-            pm2 restart all || npm run start
+      - name: Deploy
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
