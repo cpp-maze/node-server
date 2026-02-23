@@ -78,6 +78,20 @@ Outputs:
   HelloWorldDeleteFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldDeleteFunction.Arn
-  HelloWorldFunctionIamRole:
+  HelloWorldGetFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
+  HelloWorldPostFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn
+  HelloWorldPutFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn
+  HelloWorldDeleteFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn
+
+
+
+
+
