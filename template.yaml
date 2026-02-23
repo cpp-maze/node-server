@@ -9,22 +9,55 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+    Handler: app.lambda_handler
+    Runtime: python3.12
+    Architectures:
+      - x86_64
 
 Resources:
-  HelloWorldFunction:
+  HelloWorldGetFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello_world/
-      Handler: app.lambda_handler
-      Runtime: python3.12
-      Architectures:
-        - x86_64
+      CodeUri: services/hello_world_get/
       Events:
-        HelloWorld:
+        HelloWorldGet:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /hello
             Method: get
+
+  HelloWorldPostFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: services/hello_world_post/
+      Events:
+        HelloWorldPost:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: post
+
+  HelloWorldPutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: services/hello_world_put/
+      Events:
+        HelloWorldPost:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: put
+
+  HelloWorldDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: services/hello_world_delete/
+      Events:
+        HelloWorldPost:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: delete
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -33,9 +66,18 @@ Outputs:
   HelloWorldApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/hello/"
-  HelloWorldFunction:
+  HelloWorldGetFunction:
     Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
+    Value: !GetAtt HelloWorldGetFunction.Arn
+  HelloWorldPostFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldPostFunction.Arn
+  HelloWorldPutFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldPutFunction.Arn
+  HelloWorldDeleteFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldDeleteFunction.Arn
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
